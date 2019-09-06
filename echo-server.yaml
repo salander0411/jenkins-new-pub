@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo-demo
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: echo-demo
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: echo-demo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: echo-demo
+    spec:
+      containers:
+      - name: echo-demo
+        image: <REPO_NAME>/{APP_NAME}:<BUILD_TAG>
+        ports:
+        - containerPort: 8080
