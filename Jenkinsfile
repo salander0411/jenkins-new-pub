@@ -1,11 +1,11 @@
 node('jenkins-slave-k8s') {
     stage('Clone') {
         echo "1.Clone Stage"
-        git credentialsId: 'c8d7ea58-aa4b-425b-b74e-51a066ab560b', url: 'https://github.com/jansony1/jenkins-new.git'
+        git credentialsId: 'e2d7a399-1254-49b0-81e3-07f8799b93ca', url: 'https://github.com/salander0411/jenkins-new-pub'
         script {
             build_tag = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-            repo_name = '182335798701.dkr.ecr.cn-northwest-1.amazonaws.com.cn'
-            app_name = 'jenkins-demo'
+            repo_name = '287439122014.dkr.ecr.cn-north-1.amazonaws.com.cn'
+            app_name = 'tiange'
         }
     }
     stage('Test') {
@@ -17,7 +17,7 @@ node('jenkins-slave-k8s') {
     }
     stage('Push') {
         echo "4.Push Docker Image Stage"
-        withDockerRegistry(credentialsId:'ecr:cn-northwest-1:93afbbbf-4961-4206-8b7c-82db9dd4a55a', url: 'https://182335798701.dkr.ecr.cn-northwest-1.amazonaws.com.cn') {
+        withDockerRegistry(credentialsId: 'ecr:cn-north-1:e1163822-037c-4cd0-a8fe-1906f36c4960', url: 'https://287439122014.dkr.ecr.cn-north-1.amazonaws.com.cn/tiange')  {
            sh "docker push ${repo_name}/${app_name}:${build_tag}"
         }
     }
